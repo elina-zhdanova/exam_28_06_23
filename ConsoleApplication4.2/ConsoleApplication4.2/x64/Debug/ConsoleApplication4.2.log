@@ -1,0 +1,7 @@
+﻿  ConsoleApplication4.2.cpp
+C:\Users\elizh\source\repos\ConsoleApplication4.2\ConsoleApplication4.2\ConsoleApplication4.2.cpp(12,38): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplication4.2\ConsoleApplication4.2\ConsoleApplication4.2.cpp(21,39): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplication4.2\ConsoleApplication4.2\ConsoleApplication4.2.cpp(22,39): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplication4.2\ConsoleApplication4.2\ConsoleApplication4.2.cpp(32,41): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplication4.2\ConsoleApplication4.2\ConsoleApplication4.2.cpp(62,43): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+  ConsoleApplication4.2.vcxproj -> C:\Users\elizh\source\repos\ConsoleApplication4.2\x64\Debug\ConsoleApplication4.2.exe
