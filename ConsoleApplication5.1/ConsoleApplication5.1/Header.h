@@ -24,7 +24,18 @@ public:
 
 	void mult_by_num(double num); //умножение матрицы на число
 
-	void input(); //ввести матрицу с клавиатуры
+	void input() //ввести матрицу с клавиатуры
+	{
+		int k = 0;
+		cout << "–азмеры данного массива " << this->size_row << "x" << this->size_col << "." << endl;
+		for (int i = 0; i < this->size_row; i++) {
+			for (int j = 0; j < this->size_col; j++) {
+				elem[k] << " ";
+				k++;
+			}
+		}
+		cout << endl;
+	}
 
 	void print() //печать матрицы в консоль
 	{
