@@ -1,8 +1,6 @@
 ﻿#include <iostream>
 #include "Header.h"
-
-using std::cin;
-using std::cout;
+using namespace std;
 
 /*Matrix input() {
     int i, j;
