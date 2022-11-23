@@ -1,2 +1,3 @@
 ﻿  ConsoleApplication4.cpp
+C:\Users\elizh\source\repos\ConsoleApplication4\ConsoleApplication4\ConsoleApplication4.cpp(32,12): warning C4244: return: преобразование "__int64" в "int", возможна потеря данных
   ConsoleApplication4.vcxproj -> C:\Users\elizh\source\repos\ConsoleApplication4\x64\Debug\ConsoleApplication4.exe

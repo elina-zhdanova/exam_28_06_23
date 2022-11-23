@@ -12,11 +12,11 @@ long long int kolvo(int num)
 }
 
 
-long long int sumchet(int a)
+int sumchet(int a)
 {
     long long int s=0;
     int k=1;
-    do {
+    while (a>0) {
         if (k % 2 == 0)
         {
             s += (a % 10);
@@ -27,7 +27,7 @@ long long int sumchet(int a)
             a /= 10;
         }
         k++;
-    } while (a);
+    }
 
     return s;
 }
@@ -86,25 +86,39 @@ void task4(int* mas, int len)
         cout << mas[i] << " ";
 }
 
+int* create(int& size) {
+    while (true) {
+        cin >> size;
+        if (size > 0 && size <= 1000) break;
+        else cout << "False\n";
+    }
+    int* mas = new int[size];
+    return mas;
+}
+
+void free(int* mas) {
+    delete[] mas;
+}
+
 int main()
 {
     int choice = 0;
     int len;
-    cout << "the lenght is";
-    cin >> len;
-    int *mas = new int[len];
+    int* mas = NULL;
     while (true)
     {
         cout << "Choice? \n"
             << "1 task \n"
             << "2 task \n"
             << "3 task \n"
+            << "4 task \n"
             << "stop \n";
         cin >> choice;
         switch (choice)
         {
         case 1:
         {
+            mas = create(len);
             task1(mas, len);
             break;
         }
@@ -125,6 +139,7 @@ int main()
         }
         case 5:
         {
+            free(mas);
             return 0;
         }
         default:
