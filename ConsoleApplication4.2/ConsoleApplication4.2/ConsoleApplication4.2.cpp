@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <cstring>
 #include <string> 
 #include <fstream> 
@@ -51,15 +51,15 @@ string file_rename(string file_path_full) //по введенному полно
 	string new_name;
 	cin >> new_name;
 	string abc;
-	abc = (file_path_full.substr(0, file_path_full.find_last_of("\\") + 1)) + new_name + file_format(file_path_full);
-	return abc;
+    file_path_full = (file_path_full.substr(0, file_path_full.find_last_of("\\") + 1)) + new_name + file_format(file_path_full);
+	return file_path_full;
 }
 
 
 bool file_copy(const string file_path_full) //по введенному полному расположению файла создать 
 //копию файла(имя копии получается приписыванием  «_copy» к имени файла)
 {
-	int n = file_path_full.find_first_of('.');
+	int n = file_path_full.rfind('.');
 	string abc;
     fstream fs;
     fs.open(file_path_full, fstream::in /*считывание, а это | fstream::out - на запись + app - добавление параметров в конец*/); 
@@ -75,13 +75,13 @@ bool file_copy(const string file_path_full) //по введенному полн
     }
 
     fstream out;
-    out.open(file_path_full.substr(0, n) + "_copy" + file_path_full.substr(n, file_path_full.size() - n), fstream::out);
+    out.open(file_path_full.substr(0, n) + "_copy" + file_path_full.substr(n, -1), fstream::out);
 
     string str;
     while (!fs.eof()) //пока не наступит конец файла - работает. 
     {
         fs >> str;
-        out << str << '\n';
+        out << str;
     }
 
     fs.close();
