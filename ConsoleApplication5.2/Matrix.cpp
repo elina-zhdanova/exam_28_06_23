@@ -1,85 +1,164 @@
-#include <iostream>
 #include "Matrix.h"
-using namespace std;
-
+#include <iostream>
 Matrix::Matrix()
 {
-	this->cols = 0;
-	this->row = 0;
-	this->arrg = nullptr;
+}
+
+Matrix::Matrix(int row, int col)
+{
+	size_col = col;
+	size_row = row;
+	elem = new double[col * row];
+	for (int i = 0; i < col * row; i++)
+	{
+		elem[i] = 0;
+	}
+}
+
+Matrix::Matrix(int row, int col, const double* arr)
+{
+	if (elem != nullptr)
+		delete[]elem;
+	size_col = col;
+	size_row = row;
+	elem = new double[size_col * size_row];
+	for (int i = 0; i < size_col * size_row; i++) elem[i] = arr[i];
 }
 
 Matrix::Matrix(int size)
 {
-	cols = size;
-	row = size;
-	arrg = new double[size * size];
+	size_col = size;
+	size_row = size;
+	elem = new double[size * size];
 	for (int i = 0; i < size * size; i++)
 	{
-		arrg[i] = 0;
+		elem[i] = 0;
 	}
 }
-
-
-Matrix::Matrix(int i, int j)
-{
-	this->cols = i;
-	this->row = j;
-	this->arrg = new double[i * j];
-	for (int k = 0; k < i * j; k++)
-	{
-		arrg[k] = 0;
-	}
-}
-
 
 Matrix::Matrix(const Matrix& temp)
 {
-	this->cols = temp.cols;
-	this->row = temp.row;
-	this->arrg = new double[(temp.cols) * (temp.row)];
-	for (int i = 0; i < temp.cols * temp.row; i++)
-	{
-		this->arrg[i] = temp.arrg[i];
-	}
+	if (elem != nullptr)
+		delete[]elem;
+	this->size_col = temp.size_col;
+	this->size_row = temp.size_row;
+	elem = new double[size_col * size_row];
+	for (int i = 0; i < size_col * size_row; i++) this->elem[i] = temp.elem[i];
 }
+
 
 Matrix::~Matrix()
 {
-	if (arrg != nullptr)
-		delete[]arrg;
+	if (elem != nullptr)
+		delete[]elem;
 }
 
-Matrix::Matrix(int i, int j, const double* arr)
+void Matrix::output()
 {
-	if (arrg != nullptr)
-		delete[]arrg;
-	cols = i;
-	row = j;
-	arrg = new double[i * j];
-	for (int k = 0; k < i * j; k++) 
-		arrg[k] = arr[k];
+	int counter = 0;
+	for (int i = 0; i < size_col * size_row; i++)
+	{
+		if (counter == size_col) {
+			std::cout << '\n';
+			counter = 0;
+		}
+		std::cout << elem[i] << ' ';
+		counter++;
+	}
+	std::cout << '\n';
 }
 
-void Matrix::resize(int i, int j)
+void Matrix::sum_matrix(const Matrix& temp)
 {
-	this->cols = i;
-	this->row = j;
-	if (this->arrg != nullptr) delete[] this->arrg;
-	this->arrg = new double[this->row * this->cols];
+	for (int i = 0; i < temp.size_col * temp.size_row; i++)
+	{
+		this->elem[i] = this->elem[i] + temp.elem[i];
+	}
+	//return Matrix();
 }
 
-void Matrix::input(int i, int j)
+Matrix Matrix::sum_matrix(const double* arr)
 {
-	this->resize(i, j);
-	for (int k = 0; k < this->row * this->cols; k++)
-		this->arrg[i] = (k * 123654 * k - 321231) % 29;
-	//std::cin>> this->elem[i];
+	Matrix out(this->size_row, this->size_col);
+	for (int i = 0; i < this->size_col * this->size_row; i++)
+	{
+		out.elem[i] = this->elem[i] + arr[i];
+	}
+	return out;
 }
 
-void Matrix::input(int i, int j, double* arr)
+void Matrix::mult_number(int number)
 {
-	this->resize(i, j);
-	for (int i = 0; i < this->row * this->cols; i++)
-		this->arrg[i] = arr[i];
+	for (int i = 0; i < size_col * size_row; i++)
+	{
+		this->elem[i] = this->elem[i] * number;
+	}
+	//return Matrix();
+}
+
+void Matrix::mult_matrix(const Matrix& temp)
+{
+	if ((this->get_col() == temp.get_row()))
+	{
+		Matrix out(this->size_row, temp.size_col);
+		for (int i = 0; i < this->size_row; i++) {
+			for (int j = 0; j < temp.size_col; j++) {
+				for (int k = 0; k < this->size_col; k++) {
+					out.elem[i * temp.size_col + j] = this->elem[i * this->size_col + k] * temp.elem[k * temp.size_col + j];
+				}
+			}
+		}
+		out.output();
+	}
+	else {
+		std::cout << "Enter Matrix input";
+		if (this->elem != nullptr)
+			delete[]this->elem;
+		if (temp.elem != nullptr)
+			delete[]temp.elem;
+		std::abort();
+	}
+}
+
+Matrix Matrix::mult_matrix(const double* arr)
+{
+	Matrix out(this->size_row, this->size_col);
+	for (int i = 0; i < this->size_row; i++) {
+		for (int j = 0; j < this->size_col; j++) {
+			for (int k = 0; k < this->size_col; k++) {
+				out.elem[i * this->size_col + j] = this->elem[i * this->size_col + k] * arr[k * size_col + j];
+			}
+		}
+	}
+	return out;
+}
+
+double Matrix::trase()
+{
+	double out = 0;
+	for (int i = 0; i < this->size_col; i++) {
+		out += this->get_elem(i, i);
+	}
+	return out;
+}
+
+void Matrix::input(int row, int col)
+{
+	size_col = col;
+	size_row = row;
+	elem = new double[col * row];
+	for (int i = 0; i < col * row; i++)
+	{
+		elem[i] = 0;
+	}
+}
+
+void Matrix::input(int row, int col, double* arr)
+{
+	if (elem != nullptr)
+		delete[]elem;
+	size_col = col;
+	size_row = row;
+	elem = new double[size_col * size_row];
+	for (int i = 0; i < size_col * size_row; i++) elem[i] = arr[i];
 }

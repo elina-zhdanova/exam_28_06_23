@@ -1,29 +1,28 @@
 #pragma once
-#include <iostream>
-using namespace std;
-
 class Matrix
 {
 private:
-	int cols, row;
-	double* arrg;
-	void resize(int i, int j);
+	int size_col, size_row;
+	double* elem;
+	int i1, j1;
 public:
-	Matrix(); // конструуктор по умолчанию
-	Matrix(int i, int j); //конструктор задает размер матрицы
+	Matrix();
+	Matrix(int row, int col);
+	Matrix(int row, int col, const double* arr);
 	Matrix(int size);
-	Matrix(const Matrix& temp); //конструктор копировани€
-	~Matrix(); // деструктор
+	Matrix(const Matrix& temp);
+	~Matrix();
 
-	Matrix(int i, int j, const double* arr); //констуктор, i - количество строк, j - количество столбцов, элементы определ€ютс€ массивом arr;
-
-	Matrix sum(const double* arr);
-	Matrix sum(const double* arr, int size); //сложени€ матриц, результат возвращаетс€ или записываетс€ в текущую матрицу соответственно;
-
-	Matrix mult(const double* arr);
-	Matrix mult(const double* arr, int size); //умножени€ двух матриц, результат возвращаетс€ или записываетс€ в текущую матрицу соответственно;
-
-	void input(int i, int j); //ввести матрицу с клавиатуры c заданными размерами, i - количество строк, j - количество столбцов;
-
-	void input(int i, int j, double* arr); //инициализировать матрицу заданным массивом arr, i - количество строк, j - количество столбцов.
+	void output();
+	void sum_matrix(const Matrix& temp);
+	Matrix sum_matrix(const double* arr);
+	void mult_number(int number);
+	void mult_matrix(const Matrix& temp);
+	Matrix mult_matrix(const double* arr);
+	double get_elem(int i, int j) { return elem[i * size_col + j]; }
+	int get_row() const { return size_row; }
+	int get_col() const { return size_col; }
+	double trase();
+	void input(int row, int col);
+	void input(int row, int col, double* arr);
 };
