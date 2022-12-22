@@ -4,6 +4,8 @@ using namespace std;
 
 Matrix::Matrix()
 {
+	size_col = size_row = 0;
+	elem = nullptr;
 }
 
 Matrix::Matrix(int row, int col)
@@ -47,6 +49,7 @@ Matrix::Matrix(const Matrix& temp)
 
 void Matrix::sum_matrix(const Matrix& temp) //сумма двух матриц
 {
+	// if( != ) return;
 	for (int i = 0; i < temp.size_col * temp.size_row; i++)
 	{
 		this->elem[i] = this->elem[i] + temp.elem[i];
@@ -59,7 +62,7 @@ void Matrix::mult_by_num(double num) //умножение на число
 		this->elem[i] = this->elem[i] * num;
 }
 
-void Matrix::mult_matrix(const Matrix& temp) //умножения двух матриц
+Matrix Matrix::mult_matrix(const Matrix& temp) //умножения двух матриц
 {
 	if (this->size_col != temp.size_row) return *this;
 
@@ -72,6 +75,7 @@ void Matrix::mult_matrix(const Matrix& temp) //умножения двух матриц
 			for (int k = 0; k < this->size_col; k++)
 				res.elem[i * res.size_col + j] += this->get_elem(i, k) * temp.get_elem(k, j);
 		}
+	return res;
 
 }
 

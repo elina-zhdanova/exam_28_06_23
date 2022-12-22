@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include "Header.h"
-using namespace std;
+
+using std::cin;
+using std::cout;
 
 /*Matrix input() {
     int i, j;
@@ -34,25 +36,26 @@ int main()
             //matr1 = input();
             break;
         case 2:
-            matr1.output();
+            matr1.print();
             break;
         case 3:
             cout << "Введите число строк и столбцов ";
             cin >> i >> j;
             cout << '\n' << "Введите матрицу ";
-            matr2.make(i, j);
+            matr2.input(i, j);
             matr1.sum_matrix(matr2);
-            matr1.output();
+            matr1.print();
             break;
         case 4:
-            cout << "Введите число строк и столбцов ";
+            cout << "Введите число столбцов и строк ";
             cin >> i >> j;
             cout << "Введите матрицу ";
-            matr2.make(i, j);
-            matr1.mult_matrix(matr2);
+            matr2.input(i, j);
+            (matr1.mult_matrix(matr2)).print();
+            
             break;
         case 5:
-            matr1.trase();
+            matr1.trace();
             break;
         case 6:
             cout << "Введите множитель ";

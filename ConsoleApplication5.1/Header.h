@@ -7,6 +7,7 @@ class Matrix
 private:
 	int size_row, size_col;
 	double* elem;
+	int i1, j1;
 public:
 	Matrix(); // конструуктор по умолчанию
 	Matrix(int row, int col); //конструктор задает размер матрицы
@@ -16,36 +17,40 @@ public:
 
 	void sum_matrix(const Matrix& temp); // сложения матриц
 
-	void mult_matrix(const Matrix& temp); //умножения двух матриц
+	Matrix mult_matrix(const Matrix& temp); //умножения двух матриц
 
 	double trace(); //след матрицы(сумма диагональных элементов квадратной матрицы)
 
-	double det(); //определитель матрицы(для квадратных)
-
 	void mult_by_num(double num); //умножение матрицы на число
 
-	void input() //ввести матрицу с клавиатуры
+	void input(int col, int row) //ввести матрицу с клавиатуры
 	{
-		int k = 0;
-		cout << "Размеры данного массива " << this->size_row << "x" << this->size_col << "." << endl;
-		for (int i = 0; i < this->size_row; i++) {
-			for (int j = 0; j < this->size_col; j++) {
-				elem[k] << " ";
-				k++;
-			}
+		i1 = 0;
+		j1 = 0;
+		if (elem != nullptr)
+			delete[]elem;
+		size_col = col;
+		size_row = row;
+		elem = new double[size_col * size_row];
+		for (int i = 0; i < size_col * size_row; i++)
+		{
+			std::cin >> elem[i];
 		}
-		cout << endl;
+
 	}
 
 	void print() //печать матрицы в консоль
 	{
 		int k = 0;
 		for (int i = 0; i < size_col; i++)
+		{
 			for (int j = 0; j < size_row; j++)
 			{
 				cout << elem[k] << " ";
 				k++;
 			}
+			cout << endl;
+		}
 		cout << endl;
 	}
 
