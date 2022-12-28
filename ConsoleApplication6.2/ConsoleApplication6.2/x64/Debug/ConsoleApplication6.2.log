@@ -1,3 +1,3 @@
 ﻿  ConsoleApplication6.2.cpp
-C:\Users\elizh\source\repos\ConsoleApplication6.2\ConsoleApplication6.2\ConsoleApplication6.2.cpp(21,25): warning C4305: return: усечение из "int" в "bool"
+C:\Users\elizh\source\repos\ConsoleApplication6.2\ConsoleApplication6.2\ConsoleApplication6.2.cpp(3,10): warning C4067: непредвиденные лексемы за директивой препроцессора, требуется newline
   ConsoleApplication6.2.vcxproj -> C:\Users\elizh\source\repos\ConsoleApplication6.2\x64\Debug\ConsoleApplication6.2.exe
