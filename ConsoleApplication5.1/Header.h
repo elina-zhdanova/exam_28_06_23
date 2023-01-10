@@ -1,64 +1,29 @@
 #pragma once
-#include <iostream>
-using namespace std;
+#define getElem(t,x, y) t->arr[(x)*t->columns+(y)] 
+//^это директива, которая говорит прцессору, мол, есть в нем какой то файл или еще что, которую надо подключить до компилирования(это в целом)
+//define-определить, везде, где будет встречаться getElem, оно будет сразу заменяться на t->arr[(x)*t->columns+(y)] 
 
 class Matrix
 {
 private:
-	int size_row, size_col;
-	double* elem;
-	int i1, j1;
+    int columns;
+    int rows;
+    double* arr;
 public:
-	Matrix(); // конструуктор по умолчанию
-	Matrix(int row, int col); //конструктор задает размер матрицы
-	Matrix(int size);
-	Matrix(const Matrix& temp); //конструктор копирования
-	~Matrix(); // деструктор
+    Matrix(int n, int m);//конструктор задает размер матрицы 
 
-	void sum_matrix(const Matrix& temp); // сложения матриц
+    Matrix(int n, int m, double* matr);
+    ~Matrix(); // деструктор выполняет освобождение использованных 
+    //объектом ресурсов и удаление нестатических переменных объекта.
 
-	Matrix mult_matrix(const Matrix& temp); //умножения двух матриц
-
-	double trace(); //след матрицы(сумма диагональных элементов квадратной матрицы)
-
-	void mult_by_num(double num); //умножение матрицы на число
-
-	void input(int col, int row) //ввести матрицу с клавиатуры
-	{
-		i1 = 0;
-		j1 = 0;
-		if (elem != nullptr)
-			delete[]elem;
-		size_col = col;
-		size_row = row;
-		elem = new double[size_col * size_row];
-		for (int i = 0; i < size_col * size_row; i++)
-		{
-			std::cin >> elem[i];
-		}
-
-	}
-
-	void print() //печать матрицы в консоль
-	{
-		int k = 0;
-		for (int i = 0; i < size_col; i++)
-		{
-			for (int j = 0; j < size_row; j++)
-			{
-				cout << elem[k] << " ";
-				k++;
-			}
-			cout << endl;
-		}
-		cout << endl;
-	}
-
-	int get_columns() { return size_col; }//количество столбцов
-
-	int get_rows() { return size_row; }//количество строк
-
-	double get_elem(int i, int j) const { return elem[i * size_col + j]; }	//вернуть(i, j) элемент
-
-
+    void sum(const Matrix* mat2);
+    void mult(const Matrix* mat2);
+    double trace();
+    double det();
+    void mult_by_num(double num);
+    void input();
+    void print();
+    int get_columns() const;
+    int get_rows() const;
+    double get_elem(int i, int j) const;
 };
