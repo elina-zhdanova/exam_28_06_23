@@ -2,19 +2,26 @@
 #include <list>
 #include <map>
 #include <string>
+using namespace std;
 
 int main() {
 
-    std::map <std::string, std::string> p;
-    std::list <std::string> data;
-    std::string line;
+    map <string, string> p;
+    list <string> data;
+    //Это структура данных, которая построена на двусвязных списках. 
+    //Это значит, что любой элемент знает только о предыдущем и о следующем элементах.
+    string line;
 
-    std::cout << "Enter the group number, space, surname: \n";
-    getline(std::cin, line);
+    cout << "Enter the group number, space, surname: \n";
+    getline(cin, line);
     while (line != "-") {
         if (p.find(line.substr(0, line.find(' '))) != p.end()) { //есть ли такая группа
-            //std::find проверяет, есть ли в data такая строка
-            auto num = ++find(data.begin(), data.end(), p[line.substr(0, line.find(' '))]);
+            //find проверяет, есть ли в data такая строка
+            //p.end - возврат итератора после конца.
+            auto num = ++find(data.begin(), data.end(), p[line.substr(0, line.find(' '))]);//auto слово объявляет переменную, 
+            //тип которой определяется из выражения инициализации в объявлении. здесь в листе нет как такового номера элемента
+            //find(начало, конец, что ищем)-позиция
+            //мы ищем номер ищем группы в листе,
             data.insert(num, line); //добавляем в список под нужным номером
             //меняем последнюю строку
             p[line.substr(0, line.find(' '))] = line;
@@ -22,14 +29,15 @@ int main() {
         else {
             //если слова нет
             data.push_back(line);
-            p.insert(std::pair<std::string, std::string>(line.substr(0, line.find(' ')), line));
+            p.insert(pair<string, string>(line.substr(0, line.find(' ')), line));
+            //pair потому что p-map, надо добавлять пару: ключ и значение
         }
-        std::cout << "Enter the group number, space, surname: \n";
-        getline(std::cin, line);
+        cout << "Enter the group number, space, surname: \n";
+        getline(cin, line);
     }
 
-    std::cout << "\nresult:\n";
+    cout << "\nresult:\n";
     for (auto i = data.begin(); i != data.end(); i++) {
-        std::cout << *i << '\n';
+        cout << *i << '\n';
     }
 }
