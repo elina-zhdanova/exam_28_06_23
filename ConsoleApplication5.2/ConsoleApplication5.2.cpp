@@ -1,93 +1,92 @@
 ﻿#include <iostream>
 #include "Matrix.h"
 
+using std::cin;
+using std::cout;
 using std::cout;
 using std::cin;
+using std::endl;
 
-int main()
-{
-    setlocale(LC_ALL, "Russian");
-    int choise;
-    int a = 0;
-    Matrix m1;
-    while (a == 0)
-    {
-        std::cout << "Что вы хотите выполнить?" "\n" << "1. Ввод нулевой матрицы" "\n" << "2. Ввод матрицы пользователем" "\n" << "3. Сумма матриц" "\n" << "4. Сумма матриц" "\n" << "5. Умножение матриц" "\n" "6. Умножение матриц" "\n" "7. Выход" "\n";
-        cin >> choise;
-        if (choise == 1) {
-            int i, j;
-            cout << "Введите число строк и столбцов ";
-            cin >> i >> j;
-            m1.input(i, j);
-        }
-        else if (choise == 2) {
-            int i, j;
-            cout << "Введите число строк и столбцов ";
-            cin >> i >> j;
-            double* arr = new double[i * j];
-            cout << "Введите матрицу ";
-            for (int k = 0; k < i * j; k++) {
-                cin >> arr[k];
-            }
-            m1.input(i, j, arr);
-            delete[]arr;
-        }
-        else if (choise == 3) {
-            int i, j;
-            cout << "Введите число строк и столбцов ";
-            cin >> i >> j;
-            double* arr = new double[i * j];
-            cout << "Введите матрицу ";
-            for (int k = 0; k < i * j; k++) {
-                cin >> arr[k];
-            }
-            Matrix m2(i, j, arr);
-            m1.sum_matrix(m2);
-            m1.output();
-            delete[]arr;
-        }
-        else if (choise == 4) {
-            int i, j;
-            i = m1.get_col();
-            j = m1.get_row();
-            double* arr = new double[i * j];
-            cout << "Введите матрицу с таким же количеством столбцов и строк ";
-            for (int k = 0; k < i * j; k++) {
-                cin >> arr[k];
-            }
-            Matrix m2(m1.sum_matrix(arr));
-            m2.output();
-            delete[]arr;
-        }
-        else if (choise == 5) {
-            int i, j;
-            cout << "Введите число строк и столбцов ";
-            cin >> i >> j;
-            double* arr = new double[i * j];
-            cout << "Введите матрицу ";
-            for (int k = 0; k < i * j; k++) {
-                cin >> arr[k];
-            }
-            Matrix m2(i, j, arr);
-            m1.mult_matrix(m2);
-            delete[]arr;
-        }
-        else if (choise == 6) {
-            int i, j;
-            i = m1.get_col();
-            j = m1.get_row();
-            double* arr = new double[i * j];
-            cout << "Введите матрицу с таким же количеством столбцов и строк ";
-            for (int k = 0; k < i * j; k++) {
-                cin >> arr[k];
-            }
-            Matrix m2(m1.mult_matrix(arr));
-            m2.output();
-            delete[]arr;
-        }
-        else if (choise == 7) {
-            a++;
-        }
-    }
-    return 0;
+void input(int& n, int& m) {
+	while (true) {
+		cout << "Введите количество строк в матрице: ";
+		cin >> n;
+		cout << "Введите количество столбцов в матрице: ";
+		cin >> m;
+		if (n > 0 && m > 0) break;
+	}
+}
+
+int main() {
+	setlocale(LC_ALL, "Russian");
+	int choise;
+	Matrix* matr1 = nullptr, * matr2 = nullptr;
+	double mnoj;
+	int n, m;
+	while (true) {
+		cout << "Выберите действие:\n"
+			<< "1. Ввести новую матрицу\n"
+			<< "2. Ввести дополнительную матрицу\n"
+			<< "3. Вывести матрицу\n"
+			<< "4. найти сумму двух матриц\n"
+			<< "5. Найти произведение двух матриц\n"
+			<< "6. След матрицы\n"
+			<< "7. Умножить матрицу на число\n"
+			<< "8. Количество строк матрицы\n"
+			<< "9. Количество столбцов матрицы\n"
+			<< "10. Вывести элемент i строки j столбца\n"
+			<< "11. Выход\n"
+			<< "Ваш выбор: ";
+		cin >> choise;
+		switch (choise)
+		{
+
+		case 1:
+			input(n, m);
+			matr1 = new Matrix(n, m);
+			matr1->input();
+			break;
+		case 2:
+			input(n, m);
+			matr2 = new Matrix(n, m);
+			matr2->input();
+			break;
+		case 3:
+			matr1->print();
+			break;
+		case 4:
+			matr1->sum(matr2);
+			matr1->print();
+			break;
+		case 5:
+			matr1->mult(matr2);
+			matr1->print();
+			break;
+		case 6:
+			cout << "След матрицы равен: " << matr1->trace() << endl;
+			break;
+		case 7:
+			cout << "Введите множитель: ";
+			cin >> mnoj;
+			matr1->mult_by_num(mnoj);
+			matr1->print();
+			break;
+		case 8:
+			cout << "Количество строк в матрице: " << matr1->get_rows() << endl;
+			break;
+		case 9:
+			cout << "Количество столбцов в матрице: " << matr1->get_columns() << endl;
+			break;
+		case 10:
+			cout << "Введите индексы искомого элемента через пробел: ";
+			cin >> n >> m;
+			cout << "Элемент matr1[" << n << ", " << m << "] = " << matr1->get_elem(n, m) << endl;
+			break;
+		case 11:
+			return 0;
+		default:
+			break;
+
+		}
+	}
 }

@@ -1,164 +1,151 @@
-#include "Matrix.h"
 #include <iostream>
-Matrix::Matrix()
-{
+#include <stdexcept>
+//есть разные виды исключенйи, например, runtime_error: общий тип исключений, которые возникают во время выполнения
+//Также все типы исключений имеют метод what(), который возвращает информацию об ошибке. 
+#include "Matrix.h"
+
+void check(int n, int m) {
+	if (n != m) throw std::exception("Матрица не квадратная");//exception-для обработки исключений
+	//Некоторые ошибки времени выполнения можно обнаружить заранее с помощью проверок в коде. 
+	//Например, такими могут быть ошибки, нарушающие инвариант класса в конструкторе. 
+	//Обычно, если ошибка обнаружена, то дальнейшее выполение функции не имеет смысла, 
+	//и нужно сообщить об ошибке в то место кода, откуда эта функция была вызвана. Для этого предназначен механизм исключений.
+	//Все исключения стандартной библиотеки наследуются от std::exception.
 }
 
-Matrix::Matrix(int row, int col)
-{
-	size_col = col;
-	size_row = row;
-	elem = new double[col * row];
-	for (int i = 0; i < col * row; i++)
-	{
-		elem[i] = 0;
+Matrix::Matrix() {
+	std::cout << "Введите количество строк в матрице: ";
+	std::cin >> this->rows;
+	std::cout << "Введите количество столбцов в матрице: ";
+	std::cin >> this->columns;
+	this->arr = new double[this->rows * this->columns];
+}
+
+Matrix::Matrix(int n, int m) {
+	this->rows = n;
+	this->columns = m;
+	this->arr = new double[n * m];
+}
+
+Matrix::Matrix(int n, int m, double* matr) {
+	this->rows = n;
+	this->columns = m;
+	this->arr = matr;
+}
+
+Matrix::~Matrix() {
+	delete[] this->arr;
+}
+
+int Matrix::get_columns() const {
+	return this->columns;
+}
+
+int Matrix::get_rows() const {
+	return this->rows;
+}
+
+double Matrix::get_elem(int i, int j) const {
+	if (i >= this->rows || i < 0 || j < 0 || j >= this->columns) throw std::exception("Введенные индексы неверны");
+	else return getElem(this, i, j);
+}
+
+
+void Matrix::mult_by_num(double num) {
+	for (int i = 0; i < this->rows * this->columns; i++) {
+		this->arr[i] *= num;
 	}
 }
 
-Matrix::Matrix(int row, int col, const double* arr)
-{
-	if (elem != nullptr)
-		delete[]elem;
-	size_col = col;
-	size_row = row;
-	elem = new double[size_col * size_row];
-	for (int i = 0; i < size_col * size_row; i++) elem[i] = arr[i];
-}
-
-Matrix::Matrix(int size)
-{
-	size_col = size;
-	size_row = size;
-	elem = new double[size * size];
-	for (int i = 0; i < size * size; i++)
-	{
-		elem[i] = 0;
-	}
-}
-
-Matrix::Matrix(const Matrix& temp)
-{
-	if (elem != nullptr)
-		delete[]elem;
-	this->size_col = temp.size_col;
-	this->size_row = temp.size_row;
-	elem = new double[size_col * size_row];
-	for (int i = 0; i < size_col * size_row; i++) this->elem[i] = temp.elem[i];
-}
-
-
-Matrix::~Matrix()
-{
-	if (elem != nullptr)
-		delete[]elem;
-}
-
-void Matrix::output()
-{
-	int counter = 0;
-	for (int i = 0; i < size_col * size_row; i++)
-	{
-		if (counter == size_col) {
-			std::cout << '\n';
-			counter = 0;
+void Matrix::print() {
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < this->columns; j++) {
+			std::cout << this->get_elem(i, j) << " ";
 		}
-		std::cout << elem[i] << ' ';
-		counter++;
+		std::cout << std::endl;
 	}
-	std::cout << '\n';
 }
 
-void Matrix::sum_matrix(const Matrix& temp)
-{
-	for (int i = 0; i < temp.size_col * temp.size_row; i++)
-	{
-		this->elem[i] = this->elem[i] + temp.elem[i];
+void Matrix::input() {
+	std::cout << "Размеры данного массива " << this->rows << "x" << this->columns << "." << std::endl;
+	std::cout << "Введите элементы массива построчно (элементы отделять пробелами)\n";
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < this->columns; j++) {
+			std::cin >> getElem(this, i, j);
+		}
 	}
-	//return Matrix();
 }
 
-Matrix Matrix::sum_matrix(const double* arr)
-{
-	Matrix out(this->size_row, this->size_col);
-	for (int i = 0; i < this->size_col * this->size_row; i++)
-	{
-		out.elem[i] = this->elem[i] + arr[i];
+void Matrix::input(int n, int m) {
+	this->rows = n;
+	this->columns = m;
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < this->columns; j++) {
+			std::cin >> getElem(this, i, j);
+		}
 	}
-	return out;
 }
 
-void Matrix::mult_number(int number)
-{
-	for (int i = 0; i < size_col * size_row; i++)
-	{
-		this->elem[i] = this->elem[i] * number;
-	}
-	//return Matrix();
+void Matrix::input(int n, int m, double* matr) {
+	this->rows = n;
+	this->columns = m;
+	this->arr = matr;
 }
 
-void Matrix::mult_matrix(const Matrix& temp)
-{
-	if ((this->get_col() == temp.get_row()))
-	{
-		Matrix out(this->size_row, temp.size_col);
-		for (int i = 0; i < this->size_row; i++) {
-			for (int j = 0; j < temp.size_col; j++) {
-				for (int k = 0; k < this->size_col; k++) {
-					out.elem[i * temp.size_col + j] = this->elem[i * this->size_col + k] * temp.elem[k * temp.size_col + j];
-				}
+double Matrix::trace() {
+	check(this->rows, this->columns);
+	double sum = 0;
+	for (int i = 0; i < this->rows; i++) {
+		sum += this->get_elem(i, i);
+	}
+	return sum;
+}
+
+void Matrix::mult(const Matrix* mat2) {
+	if (this->columns != mat2->get_rows()) throw std::exception("Количество столбцов первой матрицы не совпадает с количеством строк второй");
+	double sum;
+	double* prom = new double[this->rows * mat2->get_columns()];
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < mat2->get_columns(); j++) {
+			sum = 0.0;
+			for (int k = 0; k < this->columns; k++) {
+				sum += this->get_elem(i, k) * mat2->get_elem(k, j);
 			}
+			prom[i * mat2->columns + j] = sum;
 		}
-		out.output();
 	}
-	else {
-		std::cout << "Enter Matrix input";
-		if (this->elem != nullptr)
-			delete[]this->elem;
-		if (temp.elem != nullptr)
-			delete[]temp.elem;
-		std::abort();
-	}
+	this->columns = mat2->get_columns();
+	this->arr = prom;
 }
 
-Matrix Matrix::mult_matrix(const double* arr)
-{
-	Matrix out(this->size_row, this->size_col);
-	for (int i = 0; i < this->size_row; i++) {
-		for (int j = 0; j < this->size_col; j++) {
-			for (int k = 0; k < this->size_col; k++) {
-				out.elem[i * this->size_col + j] = this->elem[i * this->size_col + k] * arr[k * size_col + j];
+void Matrix::mult(const double* matr, int n, int m) {
+	if (this->columns != n) throw std::exception("Количество столбцов первой матрицы не совпадает с количеством строк второй");
+	double sum;
+	double* prom = new double[this->rows * m];
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < m; j++) {
+			sum = 0.0;
+			for (int k = 0; k < this->columns; k++) {
+				sum += this->get_elem(i, k) * matr[k * m + j];
 			}
+			prom[i * m + j] = sum;
 		}
 	}
-	return out;
+	this->columns = m;
+	this->arr = prom;
 }
 
-double Matrix::trase()
-{
-	double out = 0;
-	for (int i = 0; i < this->size_col; i++) {
-		out += this->get_elem(i, i);
-	}
-	return out;
-}
-
-void Matrix::input(int row, int col)
-{
-	size_col = col;
-	size_row = row;
-	elem = new double[col * row];
-	for (int i = 0; i < col * row; i++)
-	{
-		elem[i] = 0;
+void Matrix::sum(const Matrix* mat2) {
+	if (this->rows != mat2->get_rows() || this->columns != mat2->get_columns()) throw std::exception("Матрицы не равны");
+	for (int i = 0; i < this->rows; i++) {
+		for (int j = 0; j < this->columns; j++) {
+			getElem(this, i, j) += getElem(mat2, i, j);
+		}
 	}
 }
 
-void Matrix::input(int row, int col, double* arr)
-{
-	if (elem != nullptr)
-		delete[]elem;
-	size_col = col;
-	size_row = row;
-	elem = new double[size_col * size_row];
-	for (int i = 0; i < size_col * size_row; i++) elem[i] = arr[i];
+void Matrix::sum(const Matrix* mat2, int size) {
+	for (int i = 0; i < size; i++) {
+		this->arr[i] += mat2->arr[i];
+	}
 }

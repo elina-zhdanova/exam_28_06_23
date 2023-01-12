@@ -1,28 +1,31 @@
 #pragma once
+#define getElem(t,x, y) t->arr[(x)*t->columns+(y)] 
+//^это директива, которая говорит прцессору, мол, есть в нем какой то файл или еще что, которую надо подключить до компилирования(это в целом)
+//define-определить, везде, где будет встречаться getElem, оно будет сразу заменяться на t->arr[(x)*t->columns+(y)] 
+
 class Matrix
 {
 private:
-	int size_col, size_row;
-	double* elem;
-	int i1, j1;
+    int columns;
+    int rows;
+    double* arr;
 public:
 	Matrix();
-	Matrix(int row, int col);
-	Matrix(int row, int col, const double* arr);
-	Matrix(int size);
-	Matrix(const Matrix& temp);
-	~Matrix();
-
-	void output();
-	void sum_matrix(const Matrix& temp);
-	Matrix sum_matrix(const double* arr);
-	void mult_number(int number);
-	void mult_matrix(const Matrix& temp);
-	Matrix mult_matrix(const double* arr);
-	double get_elem(int i, int j) { return elem[i * size_col + j]; }
-	int get_row() const { return size_row; }
-	int get_col() const { return size_col; }
-	double trase();
-	void input(int row, int col);
-	void input(int row, int col, double* arr);
+	Matrix(int n, int m); //конструктор задает размер матрицы
+	Matrix(int n, int m, double* matr);
+	~Matrix();// деструктор выполняет освобождение использованных 
+    //объектом ресурсов и удаление нестатических переменных объекта.
+	void sum(const Matrix* mat2);
+	void sum(const Matrix* mat2, int size);
+	void mult(const Matrix* mat2);
+	void mult(const double* matr, int n, int m);
+	double trace();
+	void mult_by_num(double num);
+	void input();
+	void input(int n, int m);
+	void input(int n, int m, double* matr);
+	void print();
+	int get_columns() const;
+	int get_rows() const;
+	double get_elem(int i, int j) const;
 };
