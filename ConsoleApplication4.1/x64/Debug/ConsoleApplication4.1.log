@@ -1,0 +1,9 @@
+﻿  ConsoleApplication4.1.cpp
+C:\Users\elizh\source\repos\ConsoleApplication4.1\ConsoleApplication4.1\ConsoleApplication4.1.cpp(149,26): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplication4.1\ConsoleApplication4.1\ConsoleApplication4.1.cpp(171,8): warning C4311: <function-style-cast>: усечение указателя из "char *" в "int"
+C:\Users\elizh\source\repos\ConsoleApplication4.1\ConsoleApplication4.1\ConsoleApplication4.1.cpp(171,8): warning C4302: <function-style-cast>: усечение из "char *" к "int"
+C:\Users\elizh\source\repos\ConsoleApplication4.1\ConsoleApplication4.1\ConsoleApplication4.1.cpp(172,109): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplication4.1\ConsoleApplication4.1\ConsoleApplication4.1.cpp(188,12): warning C4311: <function-style-cast>: усечение указателя из "char *" в "int"
+C:\Users\elizh\source\repos\ConsoleApplication4.1\ConsoleApplication4.1\ConsoleApplication4.1.cpp(188,12): warning C4302: <function-style-cast>: усечение из "char *" к "int"
+C:\Users\elizh\source\repos\ConsoleApplication4.1\ConsoleApplication4.1\ConsoleApplication4.1.cpp(189,111): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+  ConsoleApplication4.1.vcxproj -> C:\Users\elizh\source\repos\ConsoleApplication4.1\x64\Debug\ConsoleApplication4.1.exe

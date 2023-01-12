@@ -1,4 +1,4 @@
-﻿#include <iostream>
+﻿/*#include <iostream>
 #include <string>
 #include <cctype>
 #include <sstream>
@@ -17,30 +17,22 @@ bool palindrom(char* str)
     {
         if (str[i] == ' ') i++;
         if (str[j] == ' ')j--;
-        if (tolower(str[i]) != tolower(str[j])) 
+        if (tolower(str[i]) != tolower(str[j]))
         {
             return 0;
         }
     }
 }
 
-int find_substring1(const char* str_for_search_in, const char* substring, int start_position)
-{
-	int pos = -1;
-	for (int i = start_position; i < strlen(str_for_search_in); i++) {
-		if (tolower(str_for_search_in[i]) == tolower(substring[0])) {
-			pos = i;
-			i++;
-			for (int j = 1; j < strlen(substring); j++, i++) {
-				if (tolower(str_for_search_in[i]) != tolower(substring[j])) {
-					pos = -1;
-					break;
-				}
-			}
-			if (pos != -1) return pos;
-		}
-	}
-	return pos;
+int find_substring1(char* str_for_search, char* substring, int& start_position) { //Ввод строки, подстроки и стартовой позиции, ведется поиск первого вхождения подстроки в строке, меняется стартовая позиция
+    for (int i = 0; i < start_position; i++) str_for_search[i] = '.';
+    if (int(std::strstr(str_for_search, substring)) > 0) {
+        start_position = strlen(str_for_search) - strlen((strstr(str_for_search, substring)));
+    }
+    else {
+        start_position = -1;
+    }
+    return start_position;
 }
 
 void find_substring2(char* str_for_search, char* substring) { //Ввод строки, подстроки, ведется поиск всех вхождений подстроки в строке
@@ -72,20 +64,20 @@ void encrypt(char* str_for_encrypt, int key)
 	}
 }
 
-void search(char* str)
-{
-	bool flag = false;
-	for (int i = 0; i < strlen(str); i++)
-	{
-		if (flag = true and str[i] != '"') cout << str[i];
-		else
-			if (flag = false and str[i] == '"') flag = true;
-			else {
-				flag = false;
-				cout << ' ';
-			}
-	}
-	cout << "\n";
+
+void search(char* str) { //Ввод строки, вывод всех слов в кавычках
+    int flag = 0;
+    for (int i = 0; i <= std::strlen(str); i++) {
+        if (flag == 1 and str[i] != '"') cout << str[i];
+        else {
+            if (flag == 0 and str[i] == '"') flag = 1;
+            else {
+                flag = 0;
+                cout << " ";
+            }
+        }
+    }
+    cout << "\n";
 }
 
 int main()
@@ -126,6 +118,143 @@ int main()
             break;
         case 6:
             search(cstr1);
+            break;
+        case 7:
+            cout << "Всего хорошего";
+            a++;
+        default:
+            break;
+        }
+    }
+    return 0;
+}*/
+
+
+#include <iostream>
+#include <cstring>
+
+using std::cin;
+using std::cout;
+using std::endl;
+using std::strstr;
+
+void input(char* text) { //Функция для ввода строки, передается массив для записи 
+    cout << "Введите строку: " << '\n';
+    cin.ignore();
+    std::cin.getline(text, 256);
+}
+
+//Ввод строки, введеной в функции input, проверяется, является ли она палиндромом
+bool Palindrom(const char* str) {
+	int length = strlen(str);
+	for (int i = 0, j = length - 1; i < j; i++, j--) {
+		if (str[i] == ' ') i++;
+		if (str[j] == ' ') j--;
+		if (tolower(str[i]) != tolower(str[j])) return false;
+	}
+	return true;
+}
+
+void encrypted(char* text, int key) {  //Ввод строки, введеной в функции input, ввод ключа шифрования, строка меняется в соответствии с шифром Цезаря ВАЖНО только английский язык!
+    char encr_text[256];
+    const char* abc = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    strcpy_s(encr_text, text);
+    for (int i = 0; i < std::strlen(text); i++) {
+        if (std::strchr(abc, encr_text[i]))
+            text[i] = char(int(encr_text[i]) + key);
+        else text[i] = encr_text[i];
+    }
+}
+
+int find_substring1(char* str_for_search, char* substring, int& start_position) { //Ввод строки, подстроки и стартовой позиции, ведется поиск первого вхождения подстроки в строке, меняется стартовая позиция
+    for (int i = 0; i < start_position; i++) str_for_search[i] = '.';
+    if (int(std::strstr(str_for_search, substring)) > 0) {
+        start_position = std::strlen(str_for_search) - std::strlen((std::strstr(str_for_search, substring)));
+    }
+    else {
+        start_position = -1;
+    }
+    return start_position;
+}
+
+void find_substring2(char* str_for_search, char* substring) { //Ввод строки, подстроки, ведется поиск всех вхождений подстроки в строке
+    int arr[256];
+    int counter = 0;
+    int start = 0;
+    char str_for_search_in[256];
+    strcpy_s(str_for_search_in, str_for_search);
+    while (start != -1) {
+        for (int i = 0; i < start; i++) str_for_search_in[i] = '.';
+        if (int(std::strstr(str_for_search_in, substring)) > 0) {
+            start = std::strlen(str_for_search) - std::strlen((std::strstr(str_for_search_in, substring))) + 1;
+            arr[counter] = start;
+            counter++;
+        }
+        else {
+            start = -1;
+        }
+    }
+    for (int i = 0; i < counter; i++) cout << arr[i] - 1 << " ";
+    cout << "\n";
+}
+
+void task4(char* str) { //Ввод строки, вывод всех слов в кавычках
+    int flag = 0;
+    for (int i = 0; i <= std::strlen(str); i++) {
+        if (flag == 1 and str[i] != '"') cout << str[i];
+        else {
+            if (flag == 0 and str[i] == '"') flag = 1;
+            else {
+                flag = 0;
+                cout << " ";
+            }
+        }
+    }
+    cout << "\n";
+}
+
+
+
+
+
+int main()
+{
+    setlocale(LC_ALL, "Russian");
+    int choise;
+    char cstr1[256] = " ";
+    int key;
+    int a = 0;
+    char sub[256] = " ";
+    int start;
+    while (a == 0)
+    {
+        std::cout << "Что вы хотите выполнить?" "\n" << "1. Ввод" "\n" << "2. задание 1" "\n" << "3. задание 2.1" "\n" << "4. задание 2.2" "\n" << "5. Задание 3" "\n" "6. Задание 4" "\n" "7. Выход" "\n";
+        cin >> choise;
+        switch (choise)
+        {
+        case 1:
+            input(cstr1);
+            break;
+        case 2:
+            cout << bool(Palindrom(cstr1)) << '\n';
+            break;
+        case 3:
+            cout << "Введите подстроку "; cin >> sub;
+            cout << "Введите позицию начала "; cin >> start;
+            find_substring1(cstr1, sub, start);
+            cout << start << "\n";
+            break;
+        case 4:
+            cout << "Введите подстроку "; cin >> sub;
+            find_substring2(cstr1, sub);
+            break;
+        case 5:
+            cout << "Введите ключ "; cin >> key;
+            encrypted(cstr1, key);
+            cout << "\n" << cstr1;
+            break;
+        case 6:
+            task4(cstr1);
             break;
         case 7:
             cout << "Всего хорошего";
