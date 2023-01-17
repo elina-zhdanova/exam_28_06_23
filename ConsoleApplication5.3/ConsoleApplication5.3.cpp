@@ -1,55 +1,91 @@
 ﻿#include <iostream>
+#include <stdexcept>
 #include "Matrix.h"
 
 using std::cout;
 using std::cin;
+using std::endl;
+using std::exception;
 
-int main()
-{
-    setlocale(LC_ALL, "Russian");
-    int choise;
-    int a = 0;
-    while (a == 0)
-    {
-        std::cout << "Что вы хотите выполнить?" "\n" << "1. След" "\n" << "2. Ввод и вывод матрицы " "\n" << "3. Сумма матриц" "\n" << "4. Умножение матрицы на число" "\n" << "5. Разница матриц" "\n" "6. Смена знака" "\n" "7. Выход" "\n";
-        cin >> choise;
-        if (choise == 1) {
-            D3Matrix m1;
-            cin >> m1;
-            cout << m1.trase() << '\n';
-        }
-        else if (choise == 2) {
-            D3Matrix m1;
-            cin >> m1;
-            cout << m1 << '\n';
-        }
-        else if (choise == 3) {
-            D3Matrix m1, m2;
-            cin >> m1;
-            cin >> m2;
-            m1 + m2;
-            cout << '\n';
-        }
-        else if (choise == 4) {
-            D3Matrix m1;
-            int k;
-            cin >> m1 >> k;
-            m1* k;
-            cout << m1;
-        }
-        else if (choise == 5) {
-            D3Matrix m1, m2;
-            cin >> m1;
-            cin >> m2;
-            m1 - m2;
-            cout << '\n';
-        }
-        else if (choise == 6) {
-            D3Matrix m1;
-            cin >> m1;
-            -m1;
-            cout << '\n';
-        }
-        else a++;
-    }
+int main() {
+	setlocale(LC_ALL, "Russian");
+	int option;
+	Matrix matr1, matr2, prom;
+	double mnoj;
+	int n, m;
+	while (true) {
+		try {
+			cout << "Выберите действие:\n"
+				<< "1. Ввести новую матрицу\n"
+				<< "2. Ввести дополнительную матрицу\n"
+				<< "3. Вывести матрицу\n"
+				<< "4. найти сумму двух матриц\n"
+				<< "5. Найти разницу двух матриц\n"
+				<< "6. Поменять знак элементов матрицы\n"
+				<< "7. Умножить основную матрицу на вспомогательную\n"
+				<< "8. Умножить матрицу на число\n"
+				<< "9. Определитель матрицы\n"
+				<< "10. След матрицы\n"
+				<< "11. Количество столбцов матрицы\n"
+				<< "12. Вывести элемент i строки j столбца\n"
+				<< "13. Выход\n"
+				<< "Ваш выбор: ";
+			cin >> option;
+			switch (option) {
+			case 1:
+				cout << "Введите ранг основной матрицы: ";
+				cin >> matr1;
+				break;
+			case 2:
+				cout << "Введите ранг вспомогательной матрицы: ";
+				cin >> matr2;
+				break;
+			case 3:
+				cout << "Какую матрицу вы хотите вывести?\n"
+					<< "1. Основная\n"
+					<< "2. Вспомогательная\n"
+					<< "Ваш выбор: ";
+				cin >> m;
+				if (m == 1) cout << matr1;
+				else cout << matr2;
+				break;
+			case 4:
+				cout << matr1 + matr2;
+				break;
+			case 5:
+				cout << matr1 - matr2;
+				break;
+			case 6:
+				cout << -matr1;
+				break;
+			case 7:
+				cout << matr1 * matr2;
+				break;
+			case 8:
+				cout << "Введите множитель: ";
+				cin >> mnoj;
+				cout << matr1 * mnoj;
+				break;
+			case 9:
+				cout << "След матрицы равен: " << matr1.tr() << endl;
+				break;
+			case 10:
+				cout << "Количество столбцов в матрице: " << matr1.get_columns() << endl;
+				break;
+			case 11:
+				cout << "Введите индексы искомого элемента через пробел: ";
+				cin >> n >> m;
+				cout << "Элемент matr1[" << n << ", " << m << "] = " << matr1.get_elem(n, m) << endl;
+				break;
+			case 12:
+				return 0;
+			default:
+				break;
+			}
+		}
+		catch (exception e) {
+			cout << e.what() << endl;
+		}
+		n = m = 0;
+	}
 }

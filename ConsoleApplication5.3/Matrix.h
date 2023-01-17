@@ -1,29 +1,37 @@
-#pragma once
 #include <iostream>
-class D3Matrix
+#include <string>
+#define getElem(t,x, y) t->Vector[(x)*t->columns+(y)] 
+
+class Matrix
 {
 private:
-	int rows, cols;
-	double* elem;
+	int columns;
+	double* Vector;
 public:
-	D3Matrix();
-	~D3Matrix();
-	D3Matrix(const int size_rows);
+	Matrix();
+	Matrix(int m);
+	Matrix(int m, double* matr);
+	Matrix(const Matrix& matr);
+	~Matrix();
+	int get_columns() const;
 	double get_elem(int i, int j) const;
-	void output() const;
-	double trase();
-	int columns();
-	void input();
-	void input(int size);
-	void copy(const D3Matrix& temp);
-	void operator+=(D3Matrix& temp);
-	void operator=(const D3Matrix& temp);
-	void operator+(D3Matrix& right);
-	void operator-(D3Matrix& right);
-	void operator*(double k);
-	void operator-=(D3Matrix& temp);
-
-	friend void operator-(D3Matrix& left);
-	friend std::istream& operator>>(std::istream& input, D3Matrix& temp);
-	friend std::ostream& operator<<(std::ostream& out, const D3Matrix& temp);
+	void input(int m);
+	void input(int m, double* matr);
+	void input(const Matrix& matr);
+	std::string print();
+	Matrix sum(const Matrix& mat2) const;
+	Matrix sum(const Matrix& mat2, int size) const;
+	Matrix mult(const Matrix& mat2) const;
+	double* mult(const double* matr, int m) const;
+	double tr() const;
+	Matrix mult_by_num(double num) const;
+	friend Matrix operator - (const Matrix& matr1);
+	Matrix operator += (Matrix matr2);
+	Matrix operator -= (Matrix matr2);
+	friend Matrix operator * (const Matrix& matr1, double num);
+	friend Matrix operator + (const Matrix& matr1, const Matrix& matr2);
+	friend Matrix operator - (const Matrix& matr1, const Matrix& matr2);
+	friend Matrix operator * (const Matrix& matr1, const Matrix& matr2);
+	friend std::ostream& operator << (std::ostream& out, Matrix matr);
+	friend std::istream& operator >> (std::istream& in, Matrix matr);
 };

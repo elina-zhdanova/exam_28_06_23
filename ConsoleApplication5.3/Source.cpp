@@ -1,211 +1,160 @@
 ﻿#include "Matrix.h"
-#include <iostream>
 
-D3Matrix::D3Matrix()
-{
-	rows = 0;
-	cols = 0;
+Matrix::Matrix() {
+	this->columns = 0;
+	this->Vector = nullptr;
 }
 
-D3Matrix::~D3Matrix()
-{
-	if (elem != nullptr)
-		delete[]elem;
+Matrix::Matrix(int m) {
+	this->columns = m;
+	this->Vector = new double[m * m];
 }
 
-D3Matrix::D3Matrix(const int size_rows)
-{
-	setlocale(LC_ALL, "Russian");
-	rows = size_rows;
-	cols = size_rows;
-	if (elem != nullptr)
-		delete[]elem;
-	elem = new double[size_rows * 3];
-	std::cout << "Ââĺäčňĺ ýëĺěĺíňű ěŕňđčöű ";
-	for (int i = 0; i < cols * 3; i++)
-	{
-		std::cin >> elem[i];
-	}
-	elem[rows - 1] = 0;
-	elem[rows * 2] = 0;
+Matrix::Matrix(int m, double* matr) {
+	this->columns = m;
+	this->Vector = matr;
 }
 
-double D3Matrix::get_elem(int i, int j) const
-{
-	if (i == j) return elem[rows + i];
-	else if (i == j + 1) return elem[rows * 2 + i];
-	else if (i + 1 == j) return elem[i];
-	else return 0;
+Matrix::Matrix(const Matrix& matr) {
+	this->columns = matr.columns;
+	this->Vector = new double[this->columns * this->columns];
+	for (int i = 0; i < this->columns * this->columns; i++) this->Vector[i] = matr.Vector[i];
 }
 
-void D3Matrix::output() const
-{
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < rows; j++) {
-			std::cout << this->get_elem(i, j) << " ";
+Matrix::~Matrix() {
+	delete[] this->Vector;
+}
+
+int Matrix::get_columns() const {
+	return this->columns;
+}
+
+double Matrix::get_elem(int i, int j) const {
+	if (i < 0 || j < 0 || j >= this->columns) throw std::exception("Введенные индексы неверны");
+	else return getElem(this, i, j);
+}
+
+void Matrix::input(int m) {
+	this->columns = m;
+	if (this->Vector != nullptr) delete[] this->Vector;
+	this->Vector = new double[m * m];
+	for (int i = 0; i < this->columns; i++) {
+		for (int j = 0; j < this->columns; j++) {
+			std::cin >> getElem(this, i, j);
 		}
-		std::cout << '\n';
 	}
 }
 
-double D3Matrix::trase()
-{
-	double out = 0;
-	for (int i = 0; i < this->cols; i++) {
-		out += this->get_elem(i, i);
+void Matrix::input(int m, double* matr) {
+	this->columns = m;
+	if (this->Vector != nullptr) delete[] this->Vector;
+	this->Vector = matr;
+}
+
+void Matrix::input(const Matrix& matr) {
+	this->columns = matr.columns;
+	if (this->Vector != nullptr) delete[] this->Vector;
+	this->Vector = new double[matr.columns * matr.columns];
+	for (int i = 0; i < matr.columns * matr.columns; i++) this->Vector[i] = matr.Vector[i];
+}
+
+std::string Matrix::print() {
+	std::string out = "";
+	for (int i = 0; i < this->columns; i++) {
+		for (int j = 0; j < this->columns; j++) {
+			out += std::to_string(this->get_elem(i, j)) + " ";
+		}
+		out += "\n";
 	}
 	return out;
 }
 
-int D3Matrix::columns()
-{
-	return rows;
+Matrix Matrix::sum(const Matrix& mat2) const {
+	return this->sum(mat2, this->columns * this->columns);
 }
 
-void D3Matrix::input(int size)
-{
-	setlocale(LC_ALL, "Russian");
-	rows = size;
-	cols = size;
-	if (elem != nullptr)
-		delete[]elem;
-	std::cout << "Ââĺäčňĺ ěŕňđčöó ";
-	elem = new double[size * 3];
-	for (int i = 0; i < size * 3; i++)
-	{
-		if (i != rows - 1 or i != rows * 2)
-			std::cin >> elem[i];
-		else elem[i] = 0;
+Matrix Matrix::sum(const Matrix& mat2, int size) const {
+	Matrix matr(this->columns);
+	for (int i = 0; i < size; i++) {
+		matr.Vector[i] = this->Vector[i] + mat2.Vector[i];
 	}
+	return matr;
 }
 
-void D3Matrix::copy(const D3Matrix& temp)
-{
-	if (elem != nullptr)
-		delete[]elem;
-	elem = new double[temp.cols * 3];
-	this->cols = temp.cols;
-	this->rows = temp.rows;
-	for (int i = 0; i < temp.cols * 3; i++) this->elem[i] = temp.elem[i];
+Matrix Matrix::mult(const Matrix& mat2) const {
+	return Matrix(this->columns, this->mult(mat2.Vector, mat2.columns));
 }
 
-void D3Matrix::operator+=(D3Matrix& temp)
-{
-	for (int i = 0; i < temp.rows * 3; i++) {
-		this->elem[i] += temp.elem[i];
-	}
-}
-
-void D3Matrix::operator-=(D3Matrix& temp)
-{
-	for (int i = 0; i < temp.rows * 3; i++) {
-		this->elem[i] -= temp.elem[i];
-	}
-}
-
-void D3Matrix::operator=(const D3Matrix& temp)
-{
-	this->copy(temp);
-}
-
-void D3Matrix::operator+(D3Matrix& right)
-{
-	D3Matrix out;
-	out = right;
-	for (int i = 0; i < right.cols * 3; i++)
-	{
-		out.elem[i] = this->elem[i] + right.elem[i];
-	}
-	std::cout << out;
-}
-
-void D3Matrix::operator-(D3Matrix& right)
-{
-	D3Matrix out;
-	out = right;
-	for (int i = 0; i < right.cols * 3; i++)
-	{
-		out.elem[i] = this->elem[i] - right.elem[i];
-	}
-	std::cout << out;
-}
-
-
-void D3Matrix::operator*(double k)
-{
-	for (int i = 0; i < rows * 3; i++) elem[i] *= k;
-}
-
-
-void D3Matrix::input()
-{
-	setlocale(LC_ALL, "Russian");
-	int size;
-	std::cout << "Ââĺäčňĺ đŕçěĺđ ěŕňđčöű ";
-	std::cin >> size;
-	this->input(size);
-}
-
-std::istream& operator>>(std::istream& input, D3Matrix& temp)
-{
-	int size;
-	setlocale(LC_ALL, "Russian");
-	std::cout << "Ââĺäčňĺ đŕçěĺđ ěŕňđčöű ";
-	input >> size;
-	/*temp.rows = size;
-	temp.cols = size;
-	if (temp.elem != nullptr)
-		delete[]temp.elem;
-	temp.elem = new double[size * 3];
-	for (int i = 0; i < size * 3; i++)
-	{
-		temp.elem[i] = i + 1;
-	}
-	temp.elem[temp.rows - 1] = 0;
-	temp.elem[temp.rows * 2] = 0;*/
-	temp.input(size);
-	return input;
-}
-
-void operator-(D3Matrix& left)
-{
-	for (int i = 0; i < left.cols * 3; i++) left.elem[i] *= -1;
-	left.output();
-}
-
-/*D3Matrix operator*(D3Matrix& left, D3Matrix& right)
-{
-	if ((left.cols == right.rows))
-	{
-		D3Matrix out;
-		out = left;
-		for (int i = 0; i < left.rows; i++) {
-			for (int j = 0; j < right.cols; j++) {
-				for (int k = 0; k < left.cols; k++) {
-					out.elem[i * left.cols + j] += left.elem[i * left.cols + k] * right.elem[k * right.cols + j];
-				}
+double* Matrix::mult(const double* matr, int m) const {
+	double sum;
+	double* prom = new double[m * m];
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < m; j++) {
+			sum = 0.0;
+			for (int k = 0; k < m; k++) {
+				sum += this->get_elem(i, k) * matr[k * m + j];
 			}
+			prom[i * m + j] = sum;
 		}
-		out.output();
 	}
-	else {
-		std::cout << "Enter Matrix input";
-		if (left.elem != nullptr)
-			delete[]left.elem;
-		if (right.elem != nullptr)
-			delete[]right.elem;
-		std::abort();
-	}
-	return D3Matrix();
-}*/
+	return prom;
+}
 
-std::ostream& operator<<(std::ostream& out, const D3Matrix& temp)
-{
-	for (int i = 0; i < temp.rows; i++) {
-		for (int j = 0; j < temp.rows; j++) {
-			out << temp.get_elem(i, j) << " ";
-		}
-		out << '\n';
+double Matrix::tr() const {
+	double sum = 0;
+	for (int i = 0; i < this->columns; i++) {
+		sum += this->get_elem(i, i);
 	}
+	return sum;
+}
+
+
+Matrix Matrix::mult_by_num(double num) const {
+	Matrix matr;
+	double* V = new double[this->columns * this->columns];
+	for (int i = 0; i < this->columns * this->columns; i++) {
+		V[i] = this->Vector[i] * num;
+	}
+	matr.input(this->columns, V);
+	return matr;
+}
+
+Matrix operator-(const Matrix& matr1) {
+	return matr1.mult_by_num (-1.0);
+}
+
+Matrix operator*(const Matrix& matr1, double num) {
+	return matr1.mult_by_num(num);
+}
+
+Matrix operator + (const Matrix& matr1, const Matrix& matr2) {
+	return Matrix(matr1.sum(matr2));
+}
+
+Matrix operator - (const Matrix& matr1, const Matrix& matr2) {
+	return Matrix(matr1.sum(-matr2));
+}
+
+Matrix operator * (const Matrix& matr1, const Matrix& matr2) {
+	return Matrix(matr1.mult(matr2));
+}
+
+Matrix Matrix::operator += (Matrix matr2) {
+	this->sum(matr2);
+	return *this;
+}
+
+Matrix Matrix::operator -= (Matrix matr2) {
+	return *this += -matr2;
+}
+
+std::ostream& operator << (std::ostream& out, Matrix matr) {
+	out << matr.print();
 	return out;
+}
+
+std::istream& operator >> (std::istream& in, Matrix matr) {
+	in >> matr.columns;
+	matr.input(matr.columns);
+	return in;
 }
