@@ -2,27 +2,27 @@
 
 Matrix::Matrix() {
 	this->columns = 0;
-	this->Vector = nullptr;
+	this->arr = nullptr;
 }
 
 Matrix::Matrix(int m) {
 	this->columns = m;
-	this->Vector = new double[m * m];
+	this->arr = new double[m * m];
 }
 
 Matrix::Matrix(int m, double* matr) {
 	this->columns = m;
-	this->Vector = matr;
+	this->arr = matr;
 }
 
 Matrix::Matrix(const Matrix& matr) {
 	this->columns = matr.columns;
-	this->Vector = new double[this->columns * this->columns];
-	for (int i = 0; i < this->columns * this->columns; i++) this->Vector[i] = matr.Vector[i];
+	this->arr = new double[this->columns * this->columns];
+	for (int i = 0; i < this->columns * this->columns; i++) this->arr[i] = matr.arr[i];
 }
 
 Matrix::~Matrix() {
-	delete[] this->Vector;
+	delete[] this->arr;
 }
 
 int Matrix::get_columns() const {
@@ -36,8 +36,8 @@ double Matrix::get_elem(int i, int j) const {
 
 void Matrix::input(int m) {
 	this->columns = m;
-	if (this->Vector != nullptr) delete[] this->Vector;
-	this->Vector = new double[m * m];
+	if (this->arr != nullptr) delete[] this->arr;
+	this->arr = new double[m * m];
 	for (int i = 0; i < this->columns; i++) {
 		for (int j = 0; j < this->columns; j++) {
 			std::cin >> getElem(this, i, j);
@@ -47,15 +47,17 @@ void Matrix::input(int m) {
 
 void Matrix::input(int m, double* matr) {
 	this->columns = m;
-	if (this->Vector != nullptr) delete[] this->Vector;
-	this->Vector = matr;
+	if (this->arr != nullptr) 
+		delete[] this->arr;
+	this->arr = matr;
 }
 
 void Matrix::input(const Matrix& matr) {
 	this->columns = matr.columns;
-	if (this->Vector != nullptr) delete[] this->Vector;
-	this->Vector = new double[matr.columns * matr.columns];
-	for (int i = 0; i < matr.columns * matr.columns; i++) this->Vector[i] = matr.Vector[i];
+	if (this->arr != nullptr) 
+		delete[] this->arr;
+	this->arr = new double[matr.columns * matr.columns];
+	for (int i = 0; i < matr.columns * matr.columns; i++) this->arr[i] = matr.arr[i];
 }
 
 std::string Matrix::print() {
@@ -76,13 +78,13 @@ Matrix Matrix::sum(const Matrix& mat2) const {
 Matrix Matrix::sum(const Matrix& mat2, int size) const {
 	Matrix matr(this->columns);
 	for (int i = 0; i < size; i++) {
-		matr.Vector[i] = this->Vector[i] + mat2.Vector[i];
+		matr.arr[i] = this->arr[i] + mat2.arr[i];
 	}
 	return matr;
 }
 
 Matrix Matrix::mult(const Matrix& mat2) const {
-	return Matrix(this->columns, this->mult(mat2.Vector, mat2.columns));
+	return Matrix(this->columns, this->mult(mat2.arr, mat2.columns));
 }
 
 double* Matrix::mult(const double* matr, int m) const {
@@ -113,7 +115,7 @@ Matrix Matrix::mult_by_num(double num) const {
 	Matrix matr;
 	double* V = new double[this->columns * this->columns];
 	for (int i = 0; i < this->columns * this->columns; i++) {
-		V[i] = this->Vector[i] * num;
+		V[i] = this->arr[i] * num;
 	}
 	matr.input(this->columns, V);
 	return matr;

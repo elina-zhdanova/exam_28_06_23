@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
-#define getElem(t,x, y) t->Vector[(x)*t->columns+(y)] 
+#define getElem(t,x, y) t->arr[(x)*t->columns+(y)] 
 
 class Matrix
 {
 private:
 	int columns;
-	double* Vector;
+	double* arr;
 public:
 	Matrix();
 	Matrix(int m);
