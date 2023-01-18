@@ -10,8 +10,7 @@ private:
 	double diameter;
 public:
 	Circle();
-	Circle(double x, double y, double
-		diameter);
+	Circle(double x, double y, double diameter);
 	void setDiameter(double size);
 	double getDiameter();
 	double S();

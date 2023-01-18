@@ -9,7 +9,7 @@ using std::cin;
 using std::endl;
 
 int main() {
-	system("chcp 65001 > nul");
+	setlocale(LC_ALL, "Russian");
 	int option;
 	int x, y, side, diameter;
 	Position pos;

@@ -26,8 +26,8 @@ double Circle::P() {
 }
 
 std::ostream& operator << (std::ostream& out, Circle& circle) {
-	out << "X        = " << circle.getX() << std::endl
-		<< "Y        = " << circle.getY() << std::endl
+	out << "X = " << circle.getX() << std::endl
+		<< "Y = " << circle.getY() << std::endl
 		<< "diameter = " << circle.getDiameter() << std::endl;
 	return out;
 }

@@ -13,8 +13,8 @@ CircleInSquare::CircleInSquare(double x, double y, double side, double diameter)
 }
 
 std::ostream& operator << (std::ostream& out, CircleInSquare& circleInSquare) {
-	out << "X        = " << circleInSquare.getX() << std::endl
-		<< "Y        = " << circleInSquare.getY() << std::endl
+	out << "X = " << circleInSquare.getX() << std::endl
+		<< "Y = " << circleInSquare.getY() << std::endl
 		<< "Side     = " << circleInSquare.getSize() << std::endl
 		<< "Diameter = " << circleInSquare.getDiameter() << std::endl;
 	return out;

@@ -42,7 +42,7 @@ void Position::increaseXY(double x, double y) {
 	this->increaseY(y);
 }
 
-std::ostream& operator << (std::ostream& out, Position& pos)  //ѕоскольку operator<< €вл€етс€ другом класса Point,
+std::ostream& operator << (std::ostream& out, Position& pos)  //ѕоскольку operator<< €вл€етс€ другом класса Position,
 // мы можем напр€мую обращатьс€ к членам класса Position.
 // здесь выполн€етс€ фактический вывод
 {
