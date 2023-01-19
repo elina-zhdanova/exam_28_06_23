@@ -1,0 +1,11 @@
+﻿  ConsoleApplicationGAME.cpp
+  game_Zhdanova.cpp
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(8,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(98,52): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(132,5): error C3861: phase246_advisor: идентификатор не найден
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(134,14): error C2660: game_Zhdanova::building: функция не принимает 0 аргументов
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(42,21): message : см. объявление "game_Zhdanova::building"
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(144,48): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(227,9): error C2360: пропуск инициализации "i" из-за метки "case"
+C:\Users\elizh\source\repos\ConsoleApplicationGAME\ConsoleApplicationGAME\game_Zhdanova.cpp(177): message : см. объявление "i"
+  Создание кода...
