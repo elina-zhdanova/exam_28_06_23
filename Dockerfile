@@ -12,6 +12,5 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /labs-elina-zhdanova
 COPY . /labs-elina-zhdanova
 
-RUN qmake echoServer.pro && make
-
-CMD ["./echoServer"]
+RUN qmake mySer.pro && make
+CMD ["./mySer","param"]
